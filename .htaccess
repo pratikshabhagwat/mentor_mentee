@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteBase /api
+RewriteRule (.*) public/$1 [L]
