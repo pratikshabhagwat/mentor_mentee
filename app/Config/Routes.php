@@ -73,6 +73,9 @@ $routes->get("class/listAll","StudentClass::index");
 // streams
 $routes->get("stream/listAll","Stream::index");
 
+// login 
+$routes->post("login", "Login::login");
+
 
 
 /*
