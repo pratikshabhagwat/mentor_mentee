@@ -65,6 +65,15 @@ $routes->patch('category/(:num)','CounsellingCategory::update/$1');
 $routes->delete("category/delete/:num","CounsellingCategory::delete/$1");
 $routes->get('category/(:num)','CounsellingCategory::show/$1');
 
+// classes
+$routes->get("class/listAll","StudentClass::index");
+
+// streams
+$routes->get("stream/listAll","Stream::index");
+
+// login 
+$routes->post("login", "Login::login");
+
 
 
 /*

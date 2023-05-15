@@ -13,7 +13,9 @@ class Student extends BaseController
     public function index()
     {
         $model = new StudentModel();
-        $data = $model->orderBy('id', 'DESC')->findAll();
+        $data = $model->select("student.*,class.class_name")->join("class","class.id=student.class","INNER")->orderBy('id', 'DESC')->findAll();
+       
+        // $model->join("role", "role.id=user.role", "INNER");
         if ($data != null) {
             $response = [
                 "status" => 200,
@@ -33,7 +35,8 @@ class Student extends BaseController
     public function show($id)
     {
         $model = new StudentModel();
-        $data = $model->find($id);
+        $data = $model->select("student.*,class.class_name")->join("class","class.id=student.class","INNER")->find($id);
+        // $data = $model->find($id);
         if ($data != null) {
             $response = [
                 "status" => 200,
@@ -118,7 +121,8 @@ class Student extends BaseController
         $model = new StudentModel();
         $data = $this->request->getJson();
         $model->update($id, $data);
-        $data = $model->find($id);
+        $data = $model->select("student.*,class.class_name")->join("class","class.id=student.class","INNER")->find($id);
+        // $data = $model->find($id);
         if ($data == null) {
             $response =
                 [
