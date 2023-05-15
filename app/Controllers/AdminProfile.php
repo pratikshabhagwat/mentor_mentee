@@ -78,6 +78,7 @@ class AdminProfile extends BaseController
         ];
         return $this->respond($response);
     }
+    
     public function update($id)
     {
         $model = new AdminProfileModel();
