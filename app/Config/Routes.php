@@ -60,6 +60,13 @@ $routes->get('Mentor/(:num)','Mentor::show/$1');
 // Role
 $routes->get("role/listAll","Role::index");
 
+// Counselling category
+$routes->get("category/listAll","CounsellingCategory::index");
+$routes->post('category/create','CounsellingCategory::create');
+$routes->patch('category/(:num)','CounsellingCategory::update/$1');
+$routes->delete("category/delete/:num","CounsellingCategory::delete/$1");
+$routes->get('category/(:num)','CounsellingCategory::show/$1');
+
 
 
 /*
