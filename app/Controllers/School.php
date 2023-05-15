@@ -3,16 +3,15 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\StudentModel;
-use App\Models\UserModel;
+use App\Models\SchoolModel;
 use CodeIgniter\API\ResponseTrait;
 
-class Student extends BaseController
+class School extends BaseController
 {
     use ResponseTrait;
     public function index()
     {
-        $model = new StudentModel();
+        $model = new SchoolModel();
         $data = $model->orderBy('id', 'DESC')->findAll();
         if ($data != null) {
             $response = [
@@ -32,7 +31,7 @@ class Student extends BaseController
     }
     public function show($id)
     {
-        $model = new StudentModel();
+        $model = new SchoolModel();
         $data = $model->find($id);
         if ($data != null) {
             $response = [
@@ -52,10 +51,9 @@ class Student extends BaseController
     }
     public function create()
     {
-        $model = new StudentModel();
+        $model = new SchoolModel();
         $data = $this->request->getJson();
         $id = $model->insert($data);
-
         if ($model->errors()) {
             $response = [
                 "status" => 500,
@@ -65,24 +63,6 @@ class Student extends BaseController
             return $this->respond($response);
         }
         $data = $model->find($id);
-
-        $usermodel=new UserModel();
-        $role=$data->role;
-        $username=$data->email;
-        $password=$data->password;
-        $profile_id=$id;
-        $userid = $usermodel->insert($data);
-      
-        if ($usermodel->errors()) {
-            $response = [
-                "status" => 500,
-                "data" => null,
-                "message" => $usermodel->errors()
-            ];
-            return $this->respond($response);
-        }
-        $userdata = $model->find($userid);
-
         if ($data == null) {
             $response = [
                 "status" => "204",
@@ -98,11 +78,9 @@ class Student extends BaseController
         ];
         return $this->respond($response);
     }
-
-    
     public function update($id)
     {
-        $model = new StudentModel();
+        $model = new SchoolModel();
         $data = $this->request->getJson();
         $model->update($id, $data);
         $data = $model->find($id);
@@ -125,7 +103,7 @@ class Student extends BaseController
     }
     public function delete($id = null)
     {
-        $model = new StudentModel();
+        $model = new SchoolModel();
         $data = $model->where('id', $id)->delete($id);
         if ($data) {
             $model->delete($id);

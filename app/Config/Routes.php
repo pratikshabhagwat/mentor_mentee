@@ -40,7 +40,9 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 //  $routes->resource('login');
 
+//student
 $routes->get("Student/listAll","Student::index");
+
 
 
 /*
