@@ -129,8 +129,10 @@ class CounsellingCategory extends BaseController
                     'response' => 'Something went wrong! Please try again later'
                 ]
             ];
-            return $this->respond($response);
         }
-        
+        return $this->respond($response);
+       
     }
+
+    
 }
