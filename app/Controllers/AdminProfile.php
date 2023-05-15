@@ -3,16 +3,15 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\MentorModel;
-use App\Models\UserModel;
+use App\Models\AdminProfileModel;
 use CodeIgniter\API\ResponseTrait;
 
-class Mentor extends BaseController
+class AdminProfile extends BaseController
 {
     use ResponseTrait;
     public function index()
     {
-        $model = new MentorModel();
+        $model = new AdminProfileModel();
         $data = $model->orderBy('id', 'DESC')->findAll();
         if ($data != null) {
             $response = [
@@ -32,7 +31,7 @@ class Mentor extends BaseController
     }
     public function show($id)
     {
-        $model = new MentorModel();
+        $model = new AdminProfileModel();
         $data = $model->find($id);
         if ($data != null) {
             $response = [
@@ -52,7 +51,7 @@ class Mentor extends BaseController
     }
     public function create()
     {
-        $model = new MentorModel();
+        $model = new AdminProfileModel();
         $data = $this->request->getJson();
         $id = $model->insert($data);
         if ($model->errors()) {
@@ -63,37 +62,7 @@ class Mentor extends BaseController
             ];
             return $this->respond($response);
         }
-        $mentordata = $model->find($id);
-
-        $usermodel=new UserModel();
-        $role=$data->role;
-        $username=$data->email;
-        $password=password_hash($data->password,PASSWORD_DEFAULT);
-        // $data->password=
-        $profile_id=$id;
-
-        $userdata=[
-            "role"=>$role,
-            "username"=>$username,
-            "password"=>$password,
-            "profile_id"=>$profile_id
-        ];
-        $userid = $usermodel->insert($userdata);
-      
-        if ($usermodel->errors()) {
-            $response = [
-                "status" => 500,
-                "data" => null,
-                "message" => $usermodel->errors()
-            ];
-            return $this->respond($response);
-        }
-        $usersdata = $usermodel->find($userid); 
-        // print_r($usersdata);
-        // exit;
-        $newdata=[];
-        $newdata=array_merge($mentordata,$usersdata);
-
+        $data = $model->find($id);
         if ($data == null) {
             $response = [
                 "status" => "204",
@@ -104,15 +73,14 @@ class Mentor extends BaseController
         }
         $response = [
             "status" => "200",
-            "data" => $newdata,
+            "data" => $data,
             "message" => "Record inserted successfully"
         ];
         return $this->respond($response);
     }
-    
     public function update($id)
     {
-        $model = new MentorModel();
+        $model = new AdminProfileModel();
         $data = $this->request->getJson();
         $model->update($id, $data);
         $data = $model->find($id);
@@ -135,7 +103,7 @@ class Mentor extends BaseController
     }
     public function delete($id = null)
     {
-        $model = new MentorModel();
+        $model = new AdminProfileModel();
         $data = $model->where('id', $id)->delete($id);
         if ($data) {
             $model->delete($id);
