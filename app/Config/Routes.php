@@ -56,6 +56,8 @@ $routes->patch('Mentor/(:num)','Mentor::update/$1');
 $routes->delete("Mentor/delete/:num","Mentor::delete/$1");
 $routes->get('Mentor/(:num)','Mentor::show/$1');
 
+// Role
+$routes->get("role/listAll","Role::index");
 
 
 /*
