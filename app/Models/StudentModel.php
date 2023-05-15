@@ -15,7 +15,7 @@ class StudentModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ["f_name","m_name","l_name","dob","gender","school_name","class","cast","subacst","board","stream","major_subjects","specialization","district","block","village",
-    "contact_no","email_id"];
+    "contact_no","email_id","school_id"];
 
     // Dates
     protected $useTimestamps = false;
