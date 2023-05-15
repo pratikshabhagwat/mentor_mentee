@@ -48,8 +48,6 @@ $routes->post('Student/create','Student::create');
 $routes->get('Student/(:num)','Student::show/$1');
 $routes->patch('Student/(:num)','Student::update/$1');
 
-
-
 //Mentors
 $routes->get("mentor/listAll","Mentor::index");
 $routes->post('Mentor/create','Mentor::create');
