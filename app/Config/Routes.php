@@ -40,6 +40,7 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 //  $routes->resource('login');
 
+
 // students
 $routes->get("Student/listAll","Student::index");
 $routes->delete("Student/delete/:num","Student::delete/$1");
@@ -58,6 +59,7 @@ $routes->get('Mentor/(:num)','Mentor::show/$1');
 
 // Role
 $routes->get("role/listAll","Role::index");
+
 
 
 /*
