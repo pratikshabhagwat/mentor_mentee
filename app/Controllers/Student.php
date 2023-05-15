@@ -64,14 +64,23 @@ class Student extends BaseController
             ];
             return $this->respond($response);
         }
-        $data = $model->find($id);
-
+        $studentsdata = $model->find($id);
+        // print_r($data);
+        // exit;
         $usermodel=new UserModel();
         $role=$data->role;
-        $username=$data->email;
-        $password=$data->password;
+        $username=$data->email_id;
+        $password=password_hash($data->password,PASSWORD_DEFAULT);
+        // $data->password=
         $profile_id=$id;
-        $userid = $usermodel->insert($data);
+
+        $userdata=[
+            "role"=>$role,
+            "username"=>$username,
+            "password"=>$password,
+            "profile_id"=>$profile_id
+        ];
+        $userid = $usermodel->insert($userdata);
       
         if ($usermodel->errors()) {
             $response = [
@@ -81,9 +90,13 @@ class Student extends BaseController
             ];
             return $this->respond($response);
         }
-        $userdata = $model->find($userid);
+        $usersdata = $usermodel->find($userid); 
+        // print_r($usersdata);
+        // exit;
+        $newdata=[];
+        $newdata=array_merge($studentsdata,$usersdata);
 
-        if ($data == null) {
+        if ($newdata == null) {
             $response = [
                 "status" => "204",
                 "data" => null,
@@ -93,13 +106,13 @@ class Student extends BaseController
         }
         $response = [
             "status" => "200",
-            "data" => $data,
+            "data" => $newdata,
             "message" => "Record inserted successfully"
         ];
         return $this->respond($response);
     }
 
-    
+
     public function update($id)
     {
         $model = new StudentModel();
