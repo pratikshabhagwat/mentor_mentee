@@ -185,7 +185,7 @@ class Student extends BaseController
         $data=$this->request->getJSON();
         $school=$data->school_id;
         $class=$data->class_id;
-        $stream=$data->stream;
+        $stream=$data->stream_id;
         $specialization=$data->specialization_id;
         $board=$data->board_id;
 
@@ -196,28 +196,31 @@ class Student extends BaseController
         
     
         if ($school == 0 && $class == 0&& $stream==0 && $specialization==0 && $board==0) {  
-
+            $selectArr = [
+                "student.*",
+                "school.name"
+               
+              ];
+              $studentdata = $model->select($selectArr)->join("school","school.id=student.school_id","INNER")->findAll();
         }   
         elseif ($school != 0 && $class == 0&& $stream==0 && $specialization==0 && $board==0) {
             $whereArr['school_id'] = $school;
-            // $groupBy = "prakalpa_id";
             $selectArr = [
               "student.*",
               "school.name"
              
             ];
+            $studentdata = $model->select($selectArr)->join("school","school.id=student.school_id","INNER")->where($whereArr)->findAll();
         }       
         elseif ($school != 0 && $class != 0&& $stream==0 && $specialization==0 && $board==0){
             $whereArr['school_id'] = $school;
             $whereArr['class'] = $class;
-            // $groupBy = "angawadi.bit_id";
             $selectArr = [
                "student.*",
                "school.name",
-               "class.class_name"
-              
+             "class.class_name"            
             ];
-            
+            $studentdata = $model->select($selectArr)->join("school","school.id=student.school_id","INNER")->join("class","class.id=student.class","INNER")->where($whereArr)->findAll();
          }
         elseif ($school != 0 && $class != 0&& $stream!=0 && $specialization==0 && $board==0) {
             $whereArr['school_id'] = $school;
@@ -230,7 +233,7 @@ class Student extends BaseController
                 "class.class_name",
                 "stream.stream_name"
             ];
-        
+            $studentdata = $model->select($selectArr)->join("school","school.id=student.school_id","INNER")->join("class","class.id=student.class","INNER")->join("stream","stream.id=student.stream","INNER")->where($whereArr)->findAll();
         }
 
 
@@ -247,10 +250,11 @@ class Student extends BaseController
                 "stream.stream_name",
                 "stream_specialization.specialization_name"
             ];
+            $studentdata = $model->select($selectArr)->join("school","school.id=student.school_id","INNER")->join("class","class.id=student.class","INNER")->join("stream","stream.id=student.stream","INNER")->join("stream_specialization","stream_specialization.id=student.specialization","INNER")->where($whereArr)->findAll();
         
         }
 
-        elseif ($school != 0 && $class != 0&& $stream!=0 && $specialization!=0 && $board==0) {
+        elseif ($school != 0 && $class != 0&& $stream!=0 && $specialization!=0 && $board!=0) {
             $whereArr['school_id'] = $school;
             $whereArr['class'] = $class;
             $whereArr['stream'] = $stream;
@@ -266,7 +270,8 @@ class Student extends BaseController
                 "stream_specialization.specialization_name",
                 "board.board_name"
             ];
-        
+        $studentdata = $model->select($selectArr)->join("school","school.id=student.school_id","INNER")->join("class","class.id=student.class","INNER")->join("stream","stream.id=student.stream","INNER")->join("stream_specialization","stream_specialization.id=student.specialization","INNER")->join("board","board.id=student.board")->where($whereArr)->findAll();     
+     
         }
         else{
             $response=[
@@ -277,12 +282,12 @@ class Student extends BaseController
             return $this->respond($response);
         }
       
-        $studentdata = $model->select($selectArr)->join("school","school.id=student.school_id","INNER")->join("class","class.id=student.class","INNER")->join("stream","stream.id=student.stream","INNER")->join("stream_specialization","stream_specialization.id=student.specialization","INNER")->join("board","board.id=student.board")->where($whereArr)->findAll();     
+        // $studentdata = $model->select($selectArr)->join("school","school.id=student.school_id","INNER")->join("class","class.id=student.class","INNER")->join("stream","stream.id=student.stream","INNER")->join("stream_specialization","stream_specialization.id=student.specialization","INNER")->join("board","board.id=student.board")->where($whereArr)->findAll();     
      
-        if(!empty($vcdcdata)){
+        if(!empty($studentdata)){
             $response=[
                 "status"=>200,
-                "data"=>$vcdcdata,
+                "data"=>$studentdata,
                 "error"=>null
             ];
             return $this->respond($response);

@@ -47,6 +47,9 @@ $routes->delete('Student/delete/(:num)', 'Student::delete/$1');
 $routes->post('Student/create','Student::create');
 $routes->get('Student/(:num)','Student::show/$1');
 $routes->patch('Student/(:num)','Student::update/$1');
+$routes->post('Student/report','Student::studentReport');
+
+
 
 //Mentors
 $routes->get("mentor/listAll","Mentor::index");
@@ -81,7 +84,6 @@ $routes->get("stream/listAll","Stream::index");
 // login 
 $routes->post("login", "Login::login");
 
-
 //Specialization
 $routes->get("specialization/listAll","Specialization::index"); 
 
@@ -91,8 +93,10 @@ $routes->post('school/create','School::create');
 $routes->patch('school/(:num)','School::update/$1');
 $routes->delete("school/delete/:num","School::delete/$1");
 $routes->get('school/(:num)','School::show/$1');
+
 // board
 $routes->get("board/listAll","Board::index");
+
 
 
 /*
