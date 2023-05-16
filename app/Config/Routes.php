@@ -55,6 +55,13 @@ $routes->patch('Mentor/(:num)','Mentor::update/$1');
 $routes->delete("Mentor/delete/:num","Mentor::delete/$1");
 $routes->get('Mentor/(:num)','Mentor::show/$1');
 
+//AdminProfile
+$routes->get("admin/listAll","AdminProfile::index");
+$routes->post('admin/create','AdminProfile::create');
+$routes->patch('admin/(:num)','AdminProfile::update/$1');
+$routes->delete("admin/delete/:num","AdminProfile::delete/$1");
+$routes->get('admin/(:num)','AdminProfile::show/$1');
+
 // Role
 $routes->get("role/listAll","Role::index");
 

@@ -66,9 +66,26 @@ class Mentor extends BaseController
             return $this->respond($response);
         }
 
-        $id = $model->insert($data);
-        if ($model->errors()) {
-            $response = [
+        $mentordata = $model->find($id);
+
+        $usermodel=new UserModel();
+        // $role=$data->role;
+        $username=$data->email;
+        $password=password_hash($data->password,PASSWORD_DEFAULT);
+        // $data->password=
+        $profile_id=$id;
+
+        $userdata=[
+            "role"=>4,
+            "username"=>$username,
+            "password"=>$password,
+            "profile_id"=>$profile_id
+        ];
+        $userid = $usermodel->insert($userdata);
+      
+ 
+        if ($usermodel->errors()) {
+      $response = [
                 "status" => 500,
                 "data" => null,
                 "message" => $model->errors()
