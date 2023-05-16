@@ -55,6 +55,12 @@ class Mentor extends BaseController
     {
         $model = new MentorModel();
         $data = $this->request->getJson();
+
+        $deomgraphic= new Demographic;
+        $data->district_obj=json_encode($deomgraphic->getObj("district",$data->district),true);
+        $data->block_obj=json_encode($deomgraphic->getObj("block",$data->block),true);
+        $data->village_obj=json_encode($deomgraphic->getObj("village",$data->village),true);
+
         $email=$data->email;
         $mobile=$data->contact_no;
         $registrationData=$model->where(["email"=>$email])->orWhere(["contact_no"=>$mobile])->findAll();
@@ -120,6 +126,10 @@ class Mentor extends BaseController
     {
         $model = new MentorModel();
         $data = $this->request->getJson();
+        $deomgraphic= new Demographic;
+        $data->district_obj=json_encode($deomgraphic->getObj("district",$data->district),true);
+        $data->block_obj=json_encode($deomgraphic->getObj("block",$data->block),true);
+        $data->village_obj=json_encode($deomgraphic->getObj("village",$data->village),true);
         $model->update($id, $data);
         $data = $model->find($id);
         if ($data == null) {

@@ -14,7 +14,7 @@ class SchoolModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["name", "state", "district", "block", "village", "address"];
+    protected $allowedFields    = ["name", "state", "district", "block", "village", "address","state_obj","district_obj","block_obj","village_obj"];
 
     // Dates
     protected $useTimestamps = false;

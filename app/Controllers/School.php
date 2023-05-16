@@ -56,6 +56,11 @@ class School extends BaseController
     {
         $model = new SchoolModel();
         $data = $this->request->getJson();
+        $deomgraphic= new Demographic;
+        $data->state_obj=json_encode($deomgraphic->getObj("state",$data->state),true);
+        $data->district_obj=json_encode($deomgraphic->getObj("district",$data->district),true);
+        $data->block_obj=json_encode($deomgraphic->getObj("block",$data->block),true);
+        $data->village_obj=json_encode($deomgraphic->getObj("village",$data->village),true);
         $id = $model->insert($data);
         if ($model->errors()) {
             $response = [
@@ -132,6 +137,13 @@ class School extends BaseController
     {
         $model = new SchoolModel();
         $data = $this->request->getJson();
+        
+        $deomgraphic= new Demographic;
+        $data->state_obj=json_encode($deomgraphic->getObj("state",$data->state),true);
+        $data->district_obj=json_encode($deomgraphic->getObj("district",$data->district),true);
+        $data->block_obj=json_encode($deomgraphic->getObj("block",$data->block),true);
+        $data->village_obj=json_encode($deomgraphic->getObj("village",$data->village),true);
+
         $model->update($id, $data);
         $data = $model->find($id);
         if ($data == null) {

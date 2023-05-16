@@ -14,7 +14,7 @@ class MentorModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["f_name", "m_name", "l_name", "gender", "education", "counselling_category", "district", "block", "village", "email", "contact_no","address"
+    protected $allowedFields    = ["f_name", "m_name", "l_name", "gender", "education", "counselling_category", "district", "block", "village", "email", "contact_no","address","district_obj","block_obj","village_obj"
 ];
 
  
