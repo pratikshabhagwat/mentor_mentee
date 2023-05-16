@@ -137,16 +137,20 @@ class Student extends BaseController
     {
         $model = new StudentModel();
         $data = $this->request->getJson();
+
         $deomgraphic= new Demographic;
         $data->state_obj=json_encode($deomgraphic->getObj("state",$data->state),true);
         $data->district_obj=json_encode($deomgraphic->getObj("district",$data->district),true);
         $data->block_obj=json_encode($deomgraphic->getObj("block",$data->block),true);
         $data->village_obj=json_encode($deomgraphic->getObj("village",$data->village),true);
+
         $model->update($id, $data);
 
         $data=$model->select("student.*,school.name")->join("school", "school.id=student.school_id", "INNER")->find($id);
         // $data = $model->select("student.*,class.class_name,stream.stream_name")->join("class", "class.id=student.class", "INNER")->join("stream", "stream.id=student.stream", "INNER")->find($id);
         // $data = $model->find($id);
+//    print_r($data);
+//      exit;
         if ($data == null) {
             $response =
                 [
@@ -156,6 +160,7 @@ class Student extends BaseController
                 ];
             return $this->respond($response);
         }
+        else{
         $response =
             [
                 "status" => 200,
@@ -164,6 +169,8 @@ class Student extends BaseController
             ];
         return $this->respond($response);
     }
+}
+
     public function delete($id = null)
     {
         $model = new StudentModel();
@@ -314,6 +321,65 @@ class Student extends BaseController
         }
 
     }
+
+
+    public function studentFilter(){
+        $model=new StudentModel();
+       $data = $this->request->getJson();
+        $district = $data->district;
+        $block = $data->block;
+        $school_id = $data->school_id;
+      
+      
+
+        $whereArr = [];
+        if ($district == 0 && $block == 0 && $school_id == 0) {
+        } 
+        elseif ($district != 0 && $block == 0 && $school_id == 0) {
+            $whereArr['student.district'] = $district;
+        }
+         elseif ($district != 0 && $block != 0 && $school_id == 0) {
+            $whereArr['student.district'] = $district;
+            $whereArr['student.block'] = $block;
+        } 
+        elseif ($district != 0 && $block != 0 && $school_id != 0) {
+            $whereArr['student.district'] = $district;
+            $whereArr['student.block'] = $block;
+            $whereArr['student.school_id'] = $school_id;
+        } 
+        else {
+            $response = [
+                "status" => "500",
+                "data" =>null,
+                "error" => "something went wrong"
+            ];
+            return $this->respond($response);
+        }
+       
+        $studentdata = $model->select("student.*,school.name as school_name")->join("school","school.id=student.school_id")->where($whereArr)->findAll();
+        // print_r($staffdata);
+        // exit;
+        if ($studentdata == null) {
+            $response = [
+                "status" => "204",
+                "data" => null,
+                "error" => "No records found"
+            ];
+            return $this->respond($response);
+        } 
+        else {
+            $response = [
+                "status" => "200",
+                "data" => $studentdata,
+                "error" => null
+            ];
+            return $this->respond($response);
+        }
+       
+
+       
+    }
+
 
     }
 

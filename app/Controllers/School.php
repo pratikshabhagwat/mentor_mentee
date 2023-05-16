@@ -188,4 +188,57 @@ class School extends BaseController
         }
         return $this->respond($response);
     }
+
+    public function schoolFilter(){
+        $model = new SchoolModel();
+       $data = $this->request->getJson();
+        $district = $data->district;
+        $block = $data->block;
+       
+      
+
+        $whereArr = [];
+        if ($district == 0 && $block == 0) {
+        } 
+        elseif ($district != 0 && $block == 0) {
+            $whereArr['district'] = $district;
+        }
+         elseif ($district != 0 && $block != 0) {
+            $whereArr['district'] = $district;
+            $whereArr['block'] = $block;
+        } 
+        
+        else {
+            $response = [
+                "status" => "500",
+                "data" =>null,
+                "error" => "something went wrong"
+            ];
+            return $this->respond($response);
+        }
+       
+        $schooldata = $model->select("school.*")->where($whereArr)->findAll();
+        // print_r($staffdata);
+        // exit;
+        if ($schooldata == null) {
+            $response = [
+                "status" => "204",
+                "data" => null,
+                "error" => "No records found"
+            ];
+            return $this->respond($response);
+        } 
+        else {
+            $response = [
+                "status" => "200",
+                "data" => $schooldata,
+                "error" => null
+            ];
+            return $this->respond($response);
+        }
+       
+
+       
+    }
+
 }
