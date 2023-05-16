@@ -4,18 +4,17 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class StudentModel extends Model
+class SpecializationModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'student';
+    protected $table            = 'stream_specialization';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["f_name","m_name","l_name","dob","gender","school_name","class","cast","subacst","board","stream","major_subjects","specialization","district","block","village",
-    "contact_no","email_id","school_id","address"];
+    protected $allowedFields    = ["id","specialization_name"];
 
     // Dates
     protected $useTimestamps = false;
