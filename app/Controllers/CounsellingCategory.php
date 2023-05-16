@@ -106,7 +106,6 @@ class CounsellingCategory extends BaseController
         return $this->respond($response);
     }
 
-    // not working
     public function delete($id = null)
     {
         $model = new CounsellingModel();
@@ -114,24 +113,22 @@ class CounsellingCategory extends BaseController
         if ($data) {
             $model->delete($id);
             $response = [
-                "status"   => 200,
+                'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'response' => 'Record successfully deleted'
+                    'success' => 'Mentor deleted successfully'
                 ]
             ];
-            return $this->respond($response);
         } else {
             $response = [
-                "status"   => 500,
+                'status'   => 504,
                 'error'    => null,
                 'messages' => [
-                    'response' => 'Something went wrong! Please try again later'
+                    'success' => 'Something went wrong! Please try again later'
                 ]
             ];
         }
         return $this->respond($response);
-       
     }
 
     
