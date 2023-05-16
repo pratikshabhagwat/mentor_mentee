@@ -13,8 +13,8 @@ class Student extends BaseController
     public function index()
     {
         $model = new StudentModel();
-        $data = $model->select("student.*,class.class_name,stream.stream_name")->join("class","class.id=student.class","INNER")->join("stream","stream.id=student.stream","INNER")->orderBy('id', 'DESC')->findAll();
-       
+        $data = $model->select("student.*,class.class_name,stream.stream_name")->join("class", "class.id=student.class", "INNER")->join("stream", "stream.id=student.stream", "INNER")->orderBy('id', 'DESC')->findAll();
+
         // $model->join("role", "role.id=user.role", "INNER");
         if ($data != null) {
             $response = [
@@ -35,7 +35,7 @@ class Student extends BaseController
     public function show($id)
     {
         $model = new StudentModel();
-        $data = $model->select("student.*,class.class_name,stream.stream_name")->join("class","class.id=student.class","INNER")->join("stream","stream.id=student.stream","INNER")->find($id);
+        $data = $model->select("student.*,class.class_name,stream.stream_name")->join("class", "class.id=student.class", "INNER")->join("stream", "stream.id=student.stream", "INNER")->find($id);
         // $data = $model->find($id);
         if ($data != null) {
             $response = [
@@ -57,11 +57,10 @@ class Student extends BaseController
     {
         $model = new StudentModel();
         $data = $this->request->getJson();
-        $email=$data->email_id;
-        $mobile=$data->contact_no;
-        $registrationData=$model->where(["email_id"=>$email])->orWhere(["contact_no"=>$mobile])->findAll();
-        if($registrationData)
-        {
+        $email = $data->email_id;
+        $mobile = $data->contact_no;
+        $registrationData = $model->where(["email_id" => $email])->orWhere(["contact_no" => $mobile])->findAll();
+        if ($registrationData) {
             $response = [
                 "status" => 204,
                 "data" => null,
@@ -69,7 +68,7 @@ class Student extends BaseController
             ];
             return $this->respond($response);
         }
-        
+
         $id = $model->insert($data);
 
         if ($model->errors()) {
@@ -81,22 +80,22 @@ class Student extends BaseController
             return $this->respond($response);
         }
         $studentsdata = $model->find($id);
-       
-        $usermodel=new UserModel();
-        // $role=$data->role;
-        $username=$data->email_id;
-        $password=password_hash($data->password,PASSWORD_DEFAULT);
-        // $data->password=
-        $profile_id=$id;
 
-        $userdata=[
-            "role"=>1,
-            "username"=>$username,
-            "password"=>$password,
-            "profile_id"=>$profile_id
+        $usermodel = new UserModel();
+        // $role=$data->role;
+        $username = $data->email_id;
+        $password = password_hash($data->password, PASSWORD_DEFAULT);
+        // $data->password=
+        $profile_id = $id;
+
+        $userdata = [
+            "role" => 1,
+            "username" => $username,
+            "password" => $password,
+            "profile_id" => $profile_id
         ];
         $userid = $usermodel->insert($userdata);
-      
+
         if ($usermodel->errors()) {
             $response = [
                 "status" => 500,
@@ -105,11 +104,11 @@ class Student extends BaseController
             ];
             return $this->respond($response);
         }
-        $usersdata = $usermodel->find($userid); 
+        $usersdata = $usermodel->find($userid);
         // print_r($usersdata);
         // exit;
-        $newdata=[];
-        $newdata=array_merge($studentsdata,$usersdata);
+        $newdata = [];
+        $newdata = array_merge($studentsdata, $usersdata);
         // $newdata = $model->select("student.*,class.class_name")->join("class","class.id=student.class","INNER")->array_merge($studentsdata,$usersdata);
 
         if ($newdata == null) {
@@ -134,7 +133,7 @@ class Student extends BaseController
         $model = new StudentModel();
         $data = $this->request->getJson();
         $model->update($id, $data);
-        $data = $model->select("student.*,class.class_name,stream.stream_name")->join("class","class.id=student.class","INNER")->join("stream","stream.id=student.stream","INNER")->find($id);
+        $data = $model->select("student.*,class.class_name,stream.stream_name")->join("class", "class.id=student.class", "INNER")->join("stream", "stream.id=student.stream", "INNER")->find($id);
         // $data = $model->find($id);
         if ($data == null) {
             $response =
@@ -160,26 +159,21 @@ class Student extends BaseController
         if ($data) {
             $model->delete($id);
             $response = [
-                "status"   => 200,
+                'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'response' => 'Record successfully deleted'
+                    'success' => 'Student deleted successfully'
                 ]
             ];
-            return $this->respond($response);
         } else {
             $response = [
-                "status"   => 500,
+                'status'   => 504,
                 'error'    => null,
                 'messages' => [
-                    'response' => 'Something went wrong! Please try again later'
+                    'success' => 'Something went wrong! Please try again later'
                 ]
             ];
         }
         return $this->respond($response);
     }
-
-
-    
 }
-
