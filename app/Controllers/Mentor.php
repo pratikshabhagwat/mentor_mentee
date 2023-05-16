@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\MentorModel;
+use App\Models\UserModel;
 use CodeIgniter\API\ResponseTrait;
 
 class Mentor extends BaseController
@@ -12,14 +13,14 @@ class Mentor extends BaseController
     public function index()
     {
         $model = new MentorModel();
-        $data = $model->orderBy('id', 'DESC')->findAll();
+        $data = $model->select("mentor.*,counselling_category.category_name as category_name")->join("counselling_category","counselling_category.id=mentor.counselling_category","INNER")->orderBy('id', 'DESC')->findAll();
         if ($data != null) {
             $response = [
                 "status" => 200,
                 "data" => $data,
                 "error" => null
             ];
-            return $this->respond($response);
+            return $this->respond($response);   
         } else {
             $response = [
                 "status" => 204,
@@ -29,6 +30,7 @@ class Mentor extends BaseController
             return $this->respond($response);
         }
     }
+
     public function show($id)
     {
         $model = new MentorModel();
@@ -65,6 +67,7 @@ class Mentor extends BaseController
             ];
             return $this->respond($response);
         }
+        $id = $model->insert($data);
 
         $mentordata = $model->find($id);
 
@@ -81,8 +84,7 @@ class Mentor extends BaseController
             "password"=>$password,
             "profile_id"=>$profile_id
         ];
-        $userid = $usermodel->insert($userdata);
-      
+        $userid = $usermodel->insert($userdata);   
  
         if ($usermodel->errors()) {
       $response = [
@@ -92,7 +94,13 @@ class Mentor extends BaseController
             ];
             return $this->respond($response);
         }
-        $data = $model->find($id);
+        $usersdata = $usermodel->find($userid); 
+        $password=password_hash($data->password,PASSWORD_DEFAULT);
+        // print_r($usersdata);
+        // exit;
+        $newdata=[];
+        $newdata=array_merge($mentordata,$usersdata);
+
         if ($data == null) {
             $response = [
                 "status" => "204",
@@ -103,7 +111,7 @@ class Mentor extends BaseController
         }
         $response = [
             "status" => "200",
-            "data" => $data,
+            "data" => $newdata,
             "message" => "Record inserted successfully"
         ];
         return $this->respond($response);
