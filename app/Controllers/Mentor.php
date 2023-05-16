@@ -142,26 +142,25 @@ class Mentor extends BaseController
     }
 }
 
-    public function delete($id = null)
+public function delete($id = null)
     {
         $model = new MentorModel();
         $data = $model->where('id', $id)->delete($id);
         if ($data) {
             $model->delete($id);
             $response = [
-                "status"   => 200,
+                'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'response' => 'Record successfully deleted'
+                    'success' => 'Mentor deleted successfully'
                 ]
             ];
-            return $this->respond($response);
         } else {
             $response = [
-                "status"   => 500,
+                'status'   => 504,
                 'error'    => null,
                 'messages' => [
-                    'response' => 'Something went wrong! Please try again later'
+                    'success' => 'Something went wrong! Please try again later'
                 ]
             ];
         }

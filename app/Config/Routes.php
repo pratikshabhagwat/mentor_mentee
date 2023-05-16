@@ -43,7 +43,7 @@ $routes->get('/', 'Home::index');
 
 // students
 $routes->get("Student/listAll","Student::index");
-$routes->delete("Student/delete/:num","Student::delete/$1");
+$routes->delete('Student/delete/(:num)', 'Student::delete/$1');
 $routes->post('Student/create','Student::create');
 $routes->get('Student/(:num)','Student::show/$1');
 $routes->patch('Student/(:num)','Student::update/$1');
@@ -52,7 +52,7 @@ $routes->patch('Student/(:num)','Student::update/$1');
 $routes->get("mentor/listAll","Mentor::index");
 $routes->post('Mentor/create','Mentor::create');
 $routes->patch('Mentor/(:num)','Mentor::update/$1');
-$routes->delete("Mentor/delete/:num","Mentor::delete/$1");
+$routes->delete('Mentor/delete/(:num)', 'Mentor::delete/$1');
 $routes->get('Mentor/(:num)','Mentor::show/$1');
 
 //AdminProfile
