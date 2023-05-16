@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\MentorModel;
-use App\Models\UserModel;
 use CodeIgniter\API\ResponseTrait;
 
 class Mentor extends BaseController
@@ -54,15 +53,19 @@ class Mentor extends BaseController
     {
         $model = new MentorModel();
         $data = $this->request->getJson();
-        $id = $model->insert($data);
-        if ($model->errors()) {
+        $email=$data->email;
+        $mobile=$data->contact_no;
+        $registrationData=$model->where(["email"=>$email])->orWhere(["contact_no"=>$mobile])->findAll();
+        if($registrationData)
+        {
             $response = [
-                "status" => 500,
+                "status" => 204,
                 "data" => null,
-                "message" => $model->errors()
+                "message" => "already registered mentor"
             ];
             return $this->respond($response);
         }
+
         $mentordata = $model->find($id);
 
         $usermodel=new UserModel();
@@ -80,20 +83,16 @@ class Mentor extends BaseController
         ];
         $userid = $usermodel->insert($userdata);
       
+ 
         if ($usermodel->errors()) {
-            $response = [
+      $response = [
                 "status" => 500,
                 "data" => null,
-                "message" => $usermodel->errors()
+                "message" => $model->errors()
             ];
             return $this->respond($response);
         }
-        $usersdata = $usermodel->find($userid); 
-        // print_r($usersdata);
-        // exit;
-        $newdata=[];
-        $newdata=array_merge($mentordata,$usersdata);
-
+        $data = $model->find($id);
         if ($data == null) {
             $response = [
                 "status" => "204",
@@ -104,12 +103,11 @@ class Mentor extends BaseController
         }
         $response = [
             "status" => "200",
-            "data" => $newdata,
+            "data" => $data,
             "message" => "Record inserted successfully"
         ];
         return $this->respond($response);
     }
-    
     public function update($id)
     {
         $model = new MentorModel();
@@ -125,6 +123,7 @@ class Mentor extends BaseController
                 ];
             return $this->respond($response);
         }
+        else{
         $response =
             [
                 "status" => 200,
@@ -133,6 +132,8 @@ class Mentor extends BaseController
             ];
         return $this->respond($response);
     }
+}
+
     public function delete($id = null)
     {
         $model = new MentorModel();
