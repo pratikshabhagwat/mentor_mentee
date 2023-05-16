@@ -66,14 +66,14 @@ class Mentor extends BaseController
         $mentordata = $model->find($id);
 
         $usermodel=new UserModel();
-        $role=$data->role;
+        // $role=$data->role;
         $username=$data->email;
         $password=password_hash($data->password,PASSWORD_DEFAULT);
         // $data->password=
         $profile_id=$id;
 
         $userdata=[
-            "role"=>$role,
+            "role"=>4,
             "username"=>$username,
             "password"=>$password,
             "profile_id"=>$profile_id

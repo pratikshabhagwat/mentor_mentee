@@ -71,14 +71,14 @@ class Student extends BaseController
         // print_r($data);
         // exit;
         $usermodel=new UserModel();
-        $role=$data->role;
+        // $role=$data->role;
         $username=$data->email_id;
         $password=password_hash($data->password,PASSWORD_DEFAULT);
         // $data->password=
         $profile_id=$id;
 
         $userdata=[
-            "role"=>$role,
+            "role"=>1,
             "username"=>$username,
             "password"=>$password,
             "profile_id"=>$profile_id
