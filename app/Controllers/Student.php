@@ -176,4 +176,129 @@ class Student extends BaseController
         }
         return $this->respond($response);
     }
-}
+
+
+
+    public function studentReport()
+    {
+        $model=new StudentModel();
+        $data=$this->request->getJSON();
+        $school=$data->school_id;
+        $class=$data->class_id;
+        $stream=$data->stream;
+        $specialization=$data->specialization_id;
+        $board=$data->board_id;
+
+            
+        $whereArr = [];  
+        $groupBy=[];  
+        $selectArr = [];
+        
+    
+        if ($school == 0 && $class == 0&& $stream==0 && $specialization==0 && $board==0) {  
+
+        }   
+        elseif ($school != 0 && $class == 0&& $stream==0 && $specialization==0 && $board==0) {
+            $whereArr['school_id'] = $school;
+            // $groupBy = "prakalpa_id";
+            $selectArr = [
+              "student.*",
+              "school.name"
+             
+            ];
+        }       
+        elseif ($school != 0 && $class != 0&& $stream==0 && $specialization==0 && $board==0){
+            $whereArr['school_id'] = $school;
+            $whereArr['class'] = $class;
+            // $groupBy = "angawadi.bit_id";
+            $selectArr = [
+               "student.*",
+               "school.name",
+               "class.class_name"
+              
+            ];
+            
+         }
+        elseif ($school != 0 && $class != 0&& $stream!=0 && $specialization==0 && $board==0) {
+            $whereArr['school_id'] = $school;
+            $whereArr['class'] = $class;
+            $whereArr['stream'] = $stream;
+            // $groupBy = "anganwadi_id";
+            $selectArr = [
+                "student.*",
+                "school.name",
+                "class.class_name",
+                "stream.stream_name"
+            ];
+        
+        }
+
+
+        elseif ($school != 0 && $class != 0&& $stream!=0 && $specialization!=0 && $board==0) {
+            $whereArr['school_id'] = $school;
+            $whereArr['class'] = $class;
+            $whereArr['stream'] = $stream;
+            $whereArr['specialization'] = $specialization;
+            // $groupBy = "anganwadi_id";
+            $selectArr = [
+                "student.*",
+                "school.name",
+                "class.class_name",
+                "stream.stream_name",
+                "stream_specialization.specialization_name"
+            ];
+        
+        }
+
+        elseif ($school != 0 && $class != 0&& $stream!=0 && $specialization!=0 && $board==0) {
+            $whereArr['school_id'] = $school;
+            $whereArr['class'] = $class;
+            $whereArr['stream'] = $stream;
+            $whereArr['specialization'] = $specialization;
+            $whereArr['board'] = $board;
+
+            // $groupBy = "anganwadi_id";
+            $selectArr = [
+                "student.*",
+                "school.name",
+                "class.class_name",
+                "stream.stream_name",
+                "stream_specialization.specialization_name",
+                "board.board_name"
+            ];
+        
+        }
+        else{
+            $response=[
+                "status"=>500,
+                "data"=>[],
+                 "error"=>"something went wrong"
+            ];
+            return $this->respond($response);
+        }
+      
+        $studentdata = $model->select($selectArr)->join("school","school.id=student.school_id","INNER")->join("class","class.id=student.class","INNER")->join("stream","stream.id=student.stream","INNER")->join("stream_specialization","stream_specialization.id=student.specialization","INNER")->join("board","board.id=student.board")->where($whereArr)->findAll();     
+     
+        if(!empty($vcdcdata)){
+            $response=[
+                "status"=>200,
+                "data"=>$vcdcdata,
+                "error"=>null
+            ];
+            return $this->respond($response);
+        }
+        else{
+            $response=[
+                "status"=>204,
+                "data"=>"no records found",
+                "error"=>null
+            ];
+            return $this->respond($response);
+        }
+
+    }
+
+    }
+
+
+
