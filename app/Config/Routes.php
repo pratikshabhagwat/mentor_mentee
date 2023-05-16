@@ -62,7 +62,7 @@ $routes->get('Mentor/(:num)','Mentor::show/$1');
 $routes->get("admin/listAll","AdminProfile::index");
 $routes->post('admin/create','AdminProfile::create');
 $routes->patch('admin/(:num)','AdminProfile::update/$1');
-$routes->delete("admin/delete/:num","AdminProfile::delete/$1");
+$routes->delete("admin/delete/(:num)","AdminProfile::delete/$1");
 $routes->get('admin/(:num)','AdminProfile::show/$1');
 
 // Role
@@ -91,7 +91,7 @@ $routes->get("specialization/listAll","Specialization::index");
 $routes->get("school/listAll","School::index");
 $routes->post('school/create','School::create');
 $routes->patch('school/(:num)','School::update/$1');
-$routes->delete("school/delete/:num","School::delete/$1");
+$routes->delete("school/delete/(:num)","School::delete/$1");
 $routes->get('school/(:num)','School::show/$1');
 
 // board
