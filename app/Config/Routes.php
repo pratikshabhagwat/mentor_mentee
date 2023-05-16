@@ -81,6 +81,10 @@ $routes->get("stream/listAll","Stream::index");
 // login 
 $routes->post("login", "Login::login");
 
+//Specialization
+$routes->get("specialization/listAll","Specialization::index"); 
+
+
 
 
 /*
