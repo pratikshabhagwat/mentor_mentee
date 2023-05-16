@@ -137,8 +137,15 @@ class Student extends BaseController
     {
         $model = new StudentModel();
         $data = $this->request->getJson();
+        $deomgraphic= new Demographic;
+        $data->state_obj=json_encode($deomgraphic->getObj("state",$data->state),true);
+        $data->district_obj=json_encode($deomgraphic->getObj("district",$data->district),true);
+        $data->block_obj=json_encode($deomgraphic->getObj("block",$data->block),true);
+        $data->village_obj=json_encode($deomgraphic->getObj("village",$data->village),true);
         $model->update($id, $data);
-        $data = $model->select("student.*,class.class_name,stream.stream_name")->join("class", "class.id=student.class", "INNER")->join("stream", "stream.id=student.stream", "INNER")->find($id);
+
+        $data=$model->select("student.*,school.name")->join("school", "school.id=student.school_id", "INNER")->find($id);
+        // $data = $model->select("student.*,class.class_name,stream.stream_name")->join("class", "class.id=student.class", "INNER")->join("stream", "stream.id=student.stream", "INNER")->find($id);
         // $data = $model->find($id);
         if ($data == null) {
             $response =

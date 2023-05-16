@@ -14,7 +14,7 @@ class StudentModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["f_name","m_name","l_name","dob","gender","school_name","class","cast","subacst","board","stream","major_subjects","specialization","district","block","village",
+    protected $allowedFields    = ["f_name","m_name","l_name","dob","gender","class","cast","subacst","board","stream","major_subjects","specialization","district","block","village",
     "contact_no","email_id","school_id","address","state","state_obj","district_obj","block_obj","village_obj"];
 
     // Dates
