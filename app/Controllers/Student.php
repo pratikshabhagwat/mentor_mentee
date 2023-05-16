@@ -57,6 +57,11 @@ class Student extends BaseController
     {
         $model = new StudentModel();
         $data = $this->request->getJson();
+        $deomgraphic= new Demographic;
+        $data->state_obj=json_encode($deomgraphic->getObj("state",$data->state),true);
+        $data->district_obj=json_encode($deomgraphic->getObj("district",$data->district),true);
+        $data->block_obj=json_encode($deomgraphic->getObj("block",$data->block),true);
+        $data->village_obj=json_encode($deomgraphic->getObj("village",$data->village),true);
         $email = $data->email_id;
         $mobile = $data->contact_no;
         $registrationData = $model->where(["email_id" => $email])->orWhere(["contact_no" => $mobile])->findAll();
