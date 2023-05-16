@@ -4,18 +4,17 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class StudentModel extends Model
+class MeetingModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'student';
+    protected $table            = 'meeting';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["f_name","m_name","l_name","dob","gender","class","cast","subacst","board","stream","major_subjects","specialization","district","block","village",
-    "contact_no","email_id","school_id","address","state","state_obj","district_obj","block_obj","village_obj","address"];
+    protected $allowedFields    = [ "title", "description", "date_time", "url", "author", "status", "atendee"];
 
     // Dates
     protected $useTimestamps = false;

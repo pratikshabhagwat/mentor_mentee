@@ -48,6 +48,7 @@ $routes->post('Student/create','Student::create');
 $routes->get('Student/(:num)','Student::show/$1');
 $routes->patch('Student/(:num)','Student::update/$1');
 $routes->post('Student/report','Student::studentReport');
+$routes->post('Student/studentFilter','Student::studentFilter');
 
 
 
@@ -93,11 +94,14 @@ $routes->post('school/create','School::create');
 $routes->patch('school/(:num)','School::update/$1');
 $routes->delete("school/delete/(:num)","School::delete/$1");
 $routes->get('school/(:num)','School::show/$1');
+$routes->post('school/schoolfilter','School::schoolFilter');
+
 
 // board
 $routes->get("board/listAll","Board::index");
 
-
+//meeting 
+$routes->post('meeting/create','Meeting::create');
 
 /*
  * --------------------------------------------------------------------
