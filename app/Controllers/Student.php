@@ -13,7 +13,7 @@ class Student extends BaseController
     public function index()
     {
         $model = new StudentModel();
-        $data = $model->select("student.*,class.class_name,stream.stream_name")->join("class", "class.id=student.class", "INNER")->join("stream", "stream.id=student.stream", "INNER")->orderBy('id', 'DESC')->findAll();
+        $data = $model->select("student.*,school.name")->join("school", "school.id=student.school_id", "INNER")->orderBy('id', 'DESC')->findAll();
 
         // $model->join("role", "role.id=user.role", "INNER");
         if ($data != null) {

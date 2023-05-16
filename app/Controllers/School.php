@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\AdminProfileModel;
 use App\Models\SchoolModel;
+use App\Models\UserModel;
 use CodeIgniter\API\ResponseTrait;
 
 class School extends BaseController
@@ -49,6 +51,7 @@ class School extends BaseController
             return $this->respond($response);
         }
     }
+
     public function create()
     {
         $model = new SchoolModel();
@@ -62,8 +65,53 @@ class School extends BaseController
             ];
             return $this->respond($response);
         }
-        $data = $model->find($id);
-        if ($data == null) {
+        $schooldata = $model->find($id);
+        $adminarr=[
+            "f_name"=>$data->f_name,
+            "m_name"=>$data->m_name,
+            "l_name"=>$data->l_name,
+            "contact_no"=>$data->contact_no,
+            "email"=>$data->email,
+            "school_id"=>$schooldata['id']
+        ];
+        
+        $adminModel=new AdminProfileModel();
+        
+        $adminid = $adminModel->insert($adminarr);
+        if ($adminModel->errors()) {
+            $response = [
+                "status" => 500,
+                "data" => null,
+                "message" => $adminModel->errors()
+            ];
+            return $this->respond($response);
+        }
+        $admindata = $adminModel->find($adminid);
+        
+       
+        $userArr=[
+            "username"=>$data->email,
+            "password"=>password_hash($data->password,PASSWORD_DEFAULT),
+            "role"=>2,
+            "profile_id"=>$admindata['id']
+        ];
+        
+        $userModel=new UserModel();
+        $userid = $userModel->insert($userArr);
+        if ($userModel->errors()) {
+            $response = [
+                "status" => 500,
+                "data" => null,
+                "message" => $userModel->errors()
+            ];
+            return $this->respond($response);
+        }
+        $userdata = $userModel->find($userid);
+       
+        $newarr=[];
+        $newarr=array_merge($schooldata,$admindata,$userdata );
+        
+        if ($newarr == null) {
             $response = [
                 "status" => "204",
                 "data" => null,
@@ -73,11 +121,13 @@ class School extends BaseController
         }
         $response = [
             "status" => "200",
-            "data" => $data,
+            "data" => $newarr,
             "message" => "Record inserted successfully"
         ];
         return $this->respond($response);
     }
+
+
     public function update($id)
     {
         $model = new SchoolModel();

@@ -49,36 +49,7 @@ class AdminProfile extends BaseController
             return $this->respond($response);
         }
     }
-    public function create()
-    {
-        $model = new AdminProfileModel();
-        $data = $this->request->getJson();
-        $id = $model->insert($data);
-        if ($model->errors()) {
-            $response = [
-                "status" => 500,
-                "data" => null,
-                "message" => $model->errors()
-            ];
-            return $this->respond($response);
-        }
-        $data = $model->find($id);
-        if ($data == null) {
-            $response = [
-                "status" => "204",
-                "data" => null,
-                "message" => "Something went wrong!"
-            ];
-            return $this->respond($response);
-        }
-        $response = [
-            "status" => "200",
-            "data" => $data,
-            "message" => "Record inserted successfully"
-        ];
-        return $this->respond($response);
-    }
-    
+  
     public function update($id)
     {
         $model = new AdminProfileModel();
