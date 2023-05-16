@@ -84,6 +84,13 @@ $routes->post("login", "Login::login");
 //Specialization
 $routes->get("specialization/listAll","Specialization::index"); 
 
+// School
+$routes->get("school/listAll","School::index");
+$routes->post('school/create','School::create');
+$routes->patch('school/(:num)','School::update/$1');
+$routes->delete("school/delete/:num","School::delete/$1");
+$routes->get('school/(:num)','School::show/$1');
+
 
 
 
