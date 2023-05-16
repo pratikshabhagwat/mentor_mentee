@@ -47,6 +47,9 @@ $routes->delete("Student/delete/:num","Student::delete/$1");
 $routes->post('Student/create','Student::create');
 $routes->get('Student/(:num)','Student::show/$1');
 $routes->patch('Student/(:num)','Student::update/$1');
+$routes->post('Student/report','Student::studentReport');
+
+
 
 //Mentors
 $routes->get("mentor/listAll","Mentor::index");
