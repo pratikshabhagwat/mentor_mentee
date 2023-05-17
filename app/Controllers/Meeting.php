@@ -255,4 +255,67 @@ class Meeting extends BaseController
         }
 
     }
+
+    
+    public function upcomingMeetings($userId)
+    {
+        $model = new MeetingModel();
+        $current_date_time = date('Y-m-d H:i:s');
+        // $whereArr=["date_time>=" => $current_date_time, "status" => 0];
+        $data = $model->where(["date_time>=" => $current_date_time, "status" => 0,"author"=>$userId])->orwhere(["date_time>=" => $current_date_time, "status" => 0,"FIND_IN_SET($userId, atendee) >"=> 0])->findAll();
+        // print_r($data);
+        // exit;
+        if ($data != null) {
+            $response = [
+                "status" => 200,
+                "data" => $data,
+                "error" => null
+            ];
+            return $this->respond($response);
+        } else {
+            $response = [
+                "status" => 204,
+                "data" => "No Records Found",
+                "error" => null
+            ];
+            return $this->respond($response);
+        }
+    }
+
+    public function pastMeetings($userId)
+    {
+        $model = new MeetingModel();
+        $current_date_time = date('Y-m-d H:i:s');
+        // $data = $model->where(["date_time<=" => $current_date_time, "status" => 0])->orderBy('id', 'ASC')->findAll();
+        
+        $data = $model->where(["date_time<=" => $current_date_time, "status" => 0,"author"=>$userId])->orwhere(["FIND_IN_SET($userId, atendee) >"=> 0])->findAll();
+        // $model->update($id, $data);
+        // $data = $model->find($id);
+print_r($data);
+exit;
+        if (!empty($data)) {
+            // Update the status of the found meetings
+            foreach ($data as $meeting) {
+                $meeting['status'] = 1;
+                $model->update($meeting['id'], $meeting);
+            }
+            $response = [
+                "status" => 200,
+                "data" => $data,
+                "error" => null
+            ];
+            return $this->respond($response);
+        } else {
+            $response = [
+                "status" => 204,
+                "data" => "No Records Found",
+                "error" => null
+            ];
+            return $this->respond($response);
+        }
+            
+        
+       
+    }
+
 }

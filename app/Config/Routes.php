@@ -105,6 +105,8 @@ $routes->get("board/listAll","Board::index");
 //meeting 
 $routes->post('meeting/create','Meeting::create');
 $routes->post('meeting/studentfilter',"Meeting::studentfilter");
+$routes->get('meeting/upcomingMeetings/(:num)',"Meeting::upcomingMeetings/$1");
+$routes->get('meeting/pastMeetings/(:num)',"Meeting::pastMeetings/$1");
 
 /*
  * --------------------------------------------------------------------
