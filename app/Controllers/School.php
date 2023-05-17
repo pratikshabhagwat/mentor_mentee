@@ -241,4 +241,24 @@ class School extends BaseController
        
     }
 
+    public function showSchool($block)
+    {
+        $model = new SchoolModel();
+            $data = $model->where(["block"=>$block])->findAll();
+           if ($data != null) {
+            $response = [
+                "status" => 200,
+                "data" => $data,
+                "error" => null
+            ];
+            return $this->respond($response);
+        } else {
+            $response = [
+                "status" => 204,
+                "data" => "No Records Found",
+                "error" => null
+            ];
+            return $this->respond($response);
+        }
+    }
 }

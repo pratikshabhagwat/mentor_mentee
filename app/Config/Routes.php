@@ -52,6 +52,7 @@ $routes->post('Student/studentFilter','Student::studentFilter');
 
 
 
+
 //Mentors
 $routes->get("mentor/listAll","Mentor::index");
 $routes->post('Mentor/create','Mentor::create');
@@ -95,6 +96,7 @@ $routes->patch('school/(:num)','School::update/$1');
 $routes->delete("school/delete/(:num)","School::delete/$1");
 $routes->get('school/(:num)','School::show/$1');
 $routes->post('school/schoolfilter','School::schoolFilter');
+$routes->get('schoolName/list/(:num)','School::showSchool/$1');
 
 
 // board
