@@ -45,15 +45,17 @@ class Login extends BaseController
             $usersdata=[];
            if($role==1){
             $studentmodel=new StudentModel();
-            $userData=$studentmodel->select("student.*")->where(["id"=>$profileId])->findAll();
+            $userData=$studentmodel->select("student.*")->where(["id"=>$profileId])->first();
            }
            elseif($role==4){
             $mentorModel=new MentorModel();
-            $userData=$mentorModel->select("mentor.*")->where(["id"=>$profileId])->findAll();
+            $userData=$mentorModel->select("mentor.*")->where(["id"=>$profileId])->first();
            }
-          
+          $newarr=[];
+          $newarr=array_merge($userData,$roleData);
+        
                
-            if (!$userData) {
+            if (!$newarr) {
                 $response = [
                     "status" => 204,
                     "message" => "Something went wrong. Please try again later!",
@@ -65,7 +67,7 @@ class Login extends BaseController
                 $response = [
                     "status" => 200,
                     "message" => "Login successfull",
-                    "data" => $userData
+                    "data" => $newarr
                 ];
                  return $this->respond($response);
           }
