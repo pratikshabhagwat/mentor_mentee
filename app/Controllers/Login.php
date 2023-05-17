@@ -52,9 +52,7 @@ class Login extends BaseController
             $userData=$mentorModel->select("mentor.*")->where(["id"=>$profileId])->findAll();
            }
           
-           print_r($userData);
-           exit;
-            
+               
             if (!$userData) {
                 $response = [
                     "status" => 204,
